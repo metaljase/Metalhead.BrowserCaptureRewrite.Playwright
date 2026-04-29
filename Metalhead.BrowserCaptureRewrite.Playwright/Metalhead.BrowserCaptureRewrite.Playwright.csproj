@@ -10,8 +10,8 @@
     <Authors>Jason Keeler</Authors>
     <Description>BrowserCaptureRewrite.Playwright is a .NET library that uses Playwright for capturing and rewriting in-flight HTTP responses from web pages.</Description>
     <PackageTags>Playwright;Browse;Browser;Capture;Intercept;HTTP;Request;Response;Rewrite;Scrape;Scraper</PackageTags>
-    <RepositoryUrl>https://github.com/metaljase/Metalhead.BrowserCaptureRewrite.Playwright</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/metaljase/Metalhead.BrowserCaptureRewrite.Playwright</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/metaljase/BrowserCaptureRewrite.Playwright</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/metaljase/BrowserCaptureRewrite.Playwright</PackageProjectUrl>
 
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Metalhead.BrowserCaptureRewrite.Abstractions" Version="1.0.0" />
+    <PackageReference Include="Metalhead.BrowserCaptureRewrite.Abstractions" Version="1.0.1" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.7" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.7" />
     <PackageReference Include="Microsoft.Playwright" Version="1.59.0" />
