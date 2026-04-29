@@ -1,0 +1,58 @@
+name: Draft Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+env:
+  Playwright_NS: Metalhead.BrowserCaptureRewrite.Playwright
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Extract version from tag
+        id: get_version
+        run: |
+          VERSION="${GITHUB_REF#refs/tags/v}"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build -c Release --no-restore
+
+      - name: Test
+        run: dotnet test -c Release --no-build --verbosity normal
+
+      - name: Pack
+        run: |
+          dotnet pack ${{ env.Playwright_NS }}/${{ env.Playwright_NS }}.csproj \
+            -c Release --no-build \
+            -p:PackageVersion=${{ steps.get_version.outputs.version }} \
+            -o ./nupkgs
+
+      - name: Create draft GitHub Release (with assets)
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.get_version.outputs.version }}
+          name: ${{ steps.get_version.outputs.version }}
+          draft: true
+          prerelease: ${{ contains(steps.get_version.outputs.version, '-') }}
+          files: |
+            ./nupkgs/*.nupkg
+            ./nupkgs/*.snupkg

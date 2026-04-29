@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Metalhead.BrowserCaptureRewrite.Playwright.Tests/Metalhead.BrowserCaptureRewrite.Playwright.Tests.csproj" />
+  <Project Path="Metalhead.BrowserCaptureRewrite.Playwright/Metalhead.BrowserCaptureRewrite.Playwright.csproj" />
+  <Project Path="Metalhead.BrowserCaptureRewrite.Samples.Core/Metalhead.BrowserCaptureRewrite.Samples.Core.csproj" Id="85669fbb-28f1-46de-9fc6-4e39695508b0" />
+  <Project Path="Metalhead.BrowserCaptureRewrite.Samples/Metalhead.BrowserCaptureRewrite.Samples.csproj" Id="c3a97dd0-e310-4005-9361-3555318a4bff" />
+</Solution>
