@@ -25,7 +25,7 @@ dotnet add package Metalhead.BrowserCaptureRewrite.Playwright
 dotnet build
 ```
 
-Run the following command from your project directory to install Playwright and the supported browsers.  NOTE: If your project is not using .NET 8.0, replace `net8.0` in the path with your target framework:
+Run the following command from your project directory to install Playwright and the supported browsers.  NOTE: If your project is not targeting .NET 8.0, replace `net8.0` in the path with your target framework:
 ```bash
 pwsh bin/Debug/net8.0/playwright.ps1 install
 ```
@@ -35,15 +35,22 @@ The Playwright implementation of `BrowserCaptureRewrite.Abstractions` must be ad
 ```csharp
 builder.Services.AddPlaywrightCaptureRewrite();
 ```
-See the [Configuration section on the `BrowserCaptureRewrite.Abstractions` repository](https://github.com/metaljase/BrowserCaptureRewrite.Abstractions#configuration) for details on the available options that can be added to `appsettings.json` or supplied through any other .NET configuration provider (e.g. environment variables, user secrets, command‑line arguments) for configuring various aspects of the library, such as navigation timing, capture timing, browser settings, resiliency policies, and connectivity probes.
+See the [Configuration section in the `BrowserCaptureRewrite.Abstractions` repository](https://github.com/metaljase/BrowserCaptureRewrite.Abstractions#configuration) for details on the options that can be added to `appsettings.json` or supplied through any .NET configuration provider (environment variables, user secrets, command‑line arguments).  These settings control navigation timing, capture timing, browser behaviour, resiliency policies, and connectivity probes.
 
 # Examples
-See the [Examples section on the `BrowserCaptureRewrite.Abstractions` repository](https://github.com/metaljase/BrowserCaptureRewrite.Abstractions#examples) for code examples that demonstrate how to capture and rewrite in-flight HTTP responses.
+See the [Examples section in the `BrowserCaptureRewrite.Abstractions` repository](https://github.com/metaljase/BrowserCaptureRewrite.Abstractions#examples) for code demonstrating how to capture and rewrite in-flight HTTP responses.
 
 # Capture/Rewrite methods
-See the [Capture/Rewrite methods section on the `BrowserCaptureRewrite.Abstractions` repository](https://github.com/metaljase/BrowserCaptureRewrite.Abstractions#capturerewrite-methods) for details on the available extension methods and convenience methods for capturing and rewriting in-flight HTTP responses.
+## Return types
+See the [Return types section in the `BrowserCaptureRewrite.Abstractions` repository](https://github.com/metaljase/BrowserCaptureRewrite.Abstractions#return-types).
 
-## Playwright service
+## Extension methods
+See the [Extension methods section in the `BrowserCaptureRewrite.Abstractions` repository](https://github.com/metaljase/BrowserCaptureRewrite.Abstractions#extension-methods).
+
+## Convenience classes / interfaces
+See the [Convenience classes/interfaces section in the `BrowserCaptureRewrite.Abstractions` repository](https://github.com/metaljase/BrowserCaptureRewrite.Abstractions#convenience-classes--interfaces).
+
+## Playwright specific methods
 Ultimately, the extension methods and convenience methods call through to `PlaywrightPageCaptureService` (for this implementation) to perform the actual work of navigating to the page URL, capturing the page's response HTML, rendered HTML, in-flight HTTP responses, and optionally rewriting in-flight HTTP responses.  It works directly with Playwright's `IPage`, so it can be used for more custom scenarios where you need direct access to the `IPage` or want to use Playwright features that aren't abstracted by the other methods.  However, unlike the extension methods and convenience methods, [`PageCaptureIncompleteException`](https://github.com/metaljase/BrowserCaptureRewrite.Abstractions/blob/master/Metalhead.BrowserCaptureRewrite.Abstractions/Exceptions/PageCaptureIncompleteException.cs) is not thrown when capture does not complete successfully; therefore, it's recommended `PlaywrightPageCaptureService` is only used when the other capture methods aren't sufficient.
 
 XML documentation for [`IPlaywrightPageCaptureService`](https://github.com/metaljase/BrowserCaptureRewrite.Playwright/blob/master/Metalhead.BrowserCaptureRewrite.Playwright/Services/IPlaywrightPageCaptureService.cs) is available in the source code.
