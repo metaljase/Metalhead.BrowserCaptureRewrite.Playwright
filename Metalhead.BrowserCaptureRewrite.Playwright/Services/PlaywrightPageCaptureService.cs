@@ -418,7 +418,7 @@ public sealed class PlaywrightPageCaptureService(ILogger<PlaywrightPageCaptureSe
         if (captureSpec?.ShouldCompleteCapture is null)
             return null;
 
-        logger.LogDebug("Polling capture completion condition for: {Url}", navOptions.Url);
+        logger.LogDebug("Polling capture-completion condition for: {Url}", navOptions.Url);
 
         var snapshot = new List<CapturedResource>();
         var pollInterval = captureTimingOptions.PollInterval();
@@ -440,11 +440,11 @@ public sealed class PlaywrightPageCaptureService(ILogger<PlaywrightPageCaptureSe
                 // Throw if the linked token was cancelled by the page-close handler.
                 if (waitCts.IsCancellationRequested)
                     throw CreateBrowserClosedOperationCanceledException(
-                        "Browser/page was closed while waiting for capture completion.", waitCts.Token);
+                        "Browser/page was closed while waiting for capture-completion.", waitCts.Token);
 
                 if (page.IsClosed)
                     throw CreateBrowserClosedOperationCanceledException(
-                        "Browser/page was closed while waiting for capture completion.", waitCts.Token);
+                        "Browser/page was closed while waiting for capture-completion.", waitCts.Token);
 
                 snapshot.Clear();
                 snapshot.AddRange(captured);
@@ -455,14 +455,14 @@ public sealed class PlaywrightPageCaptureService(ILogger<PlaywrightPageCaptureSe
                 if (completionResult.IsComplete)
                 {
                     completionStatus = completionResult.Status;
-                    logger.LogDebug("Resource completion status '{Status}' for: {Url}", completionStatus, navOptions.Url);
+                    logger.LogDebug("Capture-completion status '{Status}' for: {Url}", completionStatus, navOptions.Url);
                     break;
                 }
                 if (resourceTimeout.HasValue && resourceTimeout.Value > TimeSpan.Zero && DateTime.UtcNow - navigationStart >= resourceTimeout.Value)
                 {
                     completionStatus = CaptureStatus.CaptureTimeoutExceeded;
                     logger.LogDebug(
-                        "Resource capture timeout exceeded after {Timeout} for: {Url}",
+                        "Capture-completion timeout exceeded after {Timeout} for: {Url}",
                         HumanizeHelper.FormatDuration(resourceTimeout.Value),
                         navOptions.Url);
                     break;
@@ -482,7 +482,7 @@ public sealed class PlaywrightPageCaptureService(ILogger<PlaywrightPageCaptureSe
                 {
                     // `page.Url` can race with window closure; when Playwright reports the target closed here.
                     throw CreateBrowserClosedOperationCanceledException(
-                        "Browser/page was closed while waiting for capture completion.", waitCts.Token, ex);
+                        "Browser/page was closed while waiting for capture-completion.", waitCts.Token, ex);
                 }
 
                 try
@@ -496,7 +496,7 @@ public sealed class PlaywrightPageCaptureService(ILogger<PlaywrightPageCaptureSe
                 catch (OperationCanceledException)
                 {
                     throw CreateBrowserClosedOperationCanceledException(
-                        "Browser/page was closed while waiting for capture completion.", waitCts.Token);
+                        "Browser/page was closed while waiting for capture-completion.", waitCts.Token);
                 }
             }
         }

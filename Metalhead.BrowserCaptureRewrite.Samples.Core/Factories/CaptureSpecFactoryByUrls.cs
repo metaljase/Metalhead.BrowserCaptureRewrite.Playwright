@@ -82,7 +82,7 @@ public sealed class CaptureSpecFactoryByUrls() : ICaptureSpecFactoryByUrls
         return new CapturedResource(requestUri, text, null, contentType, resp.StatusCode, resp.Headers);
     }
 
-    // Creates the capture completion predicate delegate.  The returned function is invoked regularly during the capture process, and is passed
+    // Creates the capture-completion predicate delegate.  The returned function is invoked regularly during the capture process, and is passed
     // all the resources captured so far, allowing you to determine whether or not ALL the resources you're interested in have been captured.
     // If a completion predicate is not provided, then the capture process will complete once a duration of 500ms without any network taffic has
     // been observed.  Therefore, for many web pages, a completion predicate will not be necessary.  If the web page fetches resources you want

@@ -70,7 +70,7 @@ public sealed class CaptureSpecFactoryByContent() : ICaptureSpecFactoryByContent
     }
 
     /// <summary>
-    /// Creates a capture completion predicate that determines when all required bands and at least one album have been captured
+    /// Creates a capture-completion predicate that determines when all required bands and at least one album have been captured
     /// based on response content.
     /// </summary>
     /// <param name="requiredBands">
@@ -100,7 +100,7 @@ public sealed class CaptureSpecFactoryByContent() : ICaptureSpecFactoryByContent
         IReadOnlyList<string> requiredBands) =>
         (navOptions, resources, startTime) =>
         {
-            // Creates the capture completion predicate delegate.  The returned function is invoked regularly during the capture process, and is
+            // Creates the capture-completion predicate delegate.  The returned function is invoked regularly during the capture process, and is
             // passed the resources captured so far, allowing you to determine whether or not ALL the resources you're interested in have been
             // captured.  If a completion predicate is not provided, then the capture process will complete once a duration of 500ms without any
             // network taffic has been observed.  Therefore, for many web pages, a completion predicate will not be necessary.  If the web page
