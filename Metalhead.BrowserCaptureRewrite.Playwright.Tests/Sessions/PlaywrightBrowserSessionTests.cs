@@ -496,7 +496,7 @@ public class PlaywrightBrowserSessionTests
             session.NavigateAndCaptureResultAsync(PageCaptureParts.Resources, navOptions, captureSpec, captureTimingOptions, CancellationToken.None));
 
         // Assert
-        Assert.Equal("Browser/page was closed while waiting for capture completion.", ex.Message);
+        Assert.Equal("Browser/page was closed while waiting for capture-completion.", ex.Message);
     }
 
     [Fact]
@@ -533,7 +533,7 @@ public class PlaywrightBrowserSessionTests
             session.NavigateAndCaptureResultAsync(PageCaptureParts.Resources, navOptions, captureSpec, captureTimingOptions, CancellationToken.None));
 
         // Assert
-        Assert.Equal("Browser/page was closed while waiting for capture completion.", ex.Message);
+        Assert.Equal("Browser/page was closed while waiting for capture-completion.", ex.Message);
         Assert.IsType<PlaywrightException>(ex.InnerException);
     }
 

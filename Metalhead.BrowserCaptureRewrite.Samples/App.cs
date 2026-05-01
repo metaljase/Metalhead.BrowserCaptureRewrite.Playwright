@@ -104,7 +104,7 @@ internal sealed class App(
             Console.WriteLine("Capture and display bands & albums JSON by...");
             Console.WriteLine();
 
-            Console.WriteLine("a) Rendered HTML only; cannot provide capture completion predicate, so will not wait for albums to be fetched.");
+            Console.WriteLine("a) Rendered HTML only; cannot provide capture-completion predicate, so will not wait for albums to be fetched.");
             Console.WriteLine("b) File extension (.json).");
             Console.WriteLine("c) File extension (.json), and rewrites albums JSON response by adding more albums.");
             Console.WriteLine("d) Deserializing JSON files.");
@@ -117,10 +117,10 @@ internal sealed class App(
             Console.WriteLine("k) URLs of JSON files with a sign-in step (capture starts when browser navigates away from sign-in URL).");
             Console.WriteLine("l) URLs of JSON files with a sign-in step (capture starts when browser navigates to 'signed-in URL').");
             Console.WriteLine("m) URLs of JSON files with a sign-in step (capture starts after 'assume signed-in after' duration (8 secs).");
-            Console.WriteLine("n) URLs of JSON files without a capture completion predicate (will not wait for albums to be fetched).");
-            Console.WriteLine("o) URLs of JSON files with an incorrect URL (completion predicate cannot complete), causing a timeout after 20 secs.");
-            Console.WriteLine("p) URLs of JSON files with an incorrect URL (completion predicate cannot complete), calling directly (not a convenience method), returns whatever captured instead of throwing a PageCaptureIncompleteException after 20 secs.");
-            Console.WriteLine("q) Rendered HTML only, using PlaywrightPageCaptureService without a capture completion predicate.");
+            Console.WriteLine("n) URLs of JSON files without a capture-completion predicate (will not wait for albums to be fetched).");
+            Console.WriteLine("o) URLs of JSON files with an incorrect URL (capture-completion predicate cannot complete), causing a timeout after 20 secs.");
+            Console.WriteLine("p) URLs of JSON files with an incorrect URL (capture-completion predicate cannot complete), calling directly (not a convenience method), returns whatever captured instead of throwing a PageCaptureIncompleteException after 20 secs.");
+            Console.WriteLine("q) Rendered HTML only, using PlaywrightPageCaptureService without a capture-completion predicate.");
             Console.WriteLine("X) Exit");
             Console.WriteLine();
             Console.WriteLine("Choose an option...");
