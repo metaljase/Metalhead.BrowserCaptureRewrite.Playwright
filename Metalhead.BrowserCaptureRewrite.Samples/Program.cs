@@ -1,15 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Options;
 
-using Metalhead.BrowserCaptureRewrite.Abstractions.Connectivity;
-using Metalhead.BrowserCaptureRewrite.Abstractions.Engine;
-using Metalhead.BrowserCaptureRewrite.Abstractions.Models;
-using Metalhead.BrowserCaptureRewrite.Abstractions.Resilience;
-using Metalhead.BrowserCaptureRewrite.Abstractions.Validators;
 using Metalhead.BrowserCaptureRewrite.Samples;
 using Metalhead.BrowserCaptureRewrite.Samples.Formatters;
 using Metalhead.BrowserCaptureRewrite.Samples.Core.Factories;
@@ -21,30 +15,6 @@ ILogger<Program>? logger = null;
 
 try
 {
-    builder.Services.AddOptions<SignInOptions>().Bind(builder.Configuration.GetSection(SignInOptions.SectionName));
-    builder.Services.AddSingleton<IValidateOptions<SignInOptions>, SignInOptionsValidation>();
-    builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<SignInOptions>>().Value);
-
-    builder.Services.AddOptions<NavigationTimingOptions>().Bind(builder.Configuration.GetSection(NavigationTimingOptions.SectionName));
-    builder.Services.AddSingleton<IValidateOptions<NavigationTimingOptions>, NavigationTimingOptionsValidation>();
-    builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<NavigationTimingOptions>>().Value);
-
-    builder.Services.AddOptions<CaptureTimingOptions>().Bind(builder.Configuration.GetSection(CaptureTimingOptions.SectionName));
-    builder.Services.AddSingleton<IValidateOptions<CaptureTimingOptions>, CaptureTimingOptionsValidation>();
-    builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<CaptureTimingOptions>>().Value);
-
-    builder.Services.AddOptions<BrowserOptions>().Bind(builder.Configuration.GetSection(BrowserOptions.SectionName));
-    builder.Services.AddSingleton<IValidateOptions<BrowserOptions>, BrowserOptionsValidation>();
-    builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<BrowserOptions>>().Value);
-
-    builder.Services.AddOptions<ResiliencePolicyOptions>().Bind(builder.Configuration.GetSection(ResiliencePolicyOptions.SectionName));
-    builder.Services.AddSingleton<IValidateOptions<ResiliencePolicyOptions>, ResiliencePolicyOptionsValidation>();
-    builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<ResiliencePolicyOptions>>().Value);
-
-    builder.Services.AddOptions<ConnectivityProbeOptions>().Bind(builder.Configuration.GetSection(ConnectivityProbeOptions.SectionName));
-    builder.Services.AddSingleton<IValidateOptions<ConnectivityProbeOptions>, ConnectivityProbeOptionsValidation>();
-    builder.Services.AddSingleton(sp => sp.GetRequiredService<IOptions<ConnectivityProbeOptions>>().Value);
-
     builder.Services.AddSingleton<App>();
 
     // Core services.
@@ -61,12 +31,21 @@ try
     builder.Services.AddSingleton<IConvenienceMinimalSample, ConvenienceMinimalSample>();
 
     // Playwright & browser capture.
-    builder.Services.AddPlaywrightCaptureRewrite();
-    // Alternatively, can hardcode resilience policy retry delays...
-    //builder.Services.AddPlaywrightCaptureRewrite(options =>
+    builder.Services.AddPlaywrightCaptureRewrite(builder.Configuration);
+    // Alternatively, can hardcode values for any combination of options...
+    //builder.Services.AddPlaywrightCaptureRewrite(b =>
     //{
-    //    options.TransportRetryDelaysSeconds = [7, 8, 15, 30, 60, 300];
-    //    options.TimeoutRetryDelaysSeconds = [1, 3, 5];
+    //    b.ConfigureBrowser = o =>
+    //    {
+    //        o.Browser = Metalhead.BrowserCaptureRewrite.Abstractions.Engine.BrowserEngine.Firefox;
+    //        o.Headless = false;
+    //    };
+    //
+    //    b.ConfigureResiliencePolicy = o =>
+    //    {
+    //        o.TransportRetryDelaysSeconds = [7, 8, 15, 30, 60, 300];
+    //        o.TimeoutRetryDelaysSeconds = [1, 3, 5];
+    //    };
     //});
 
     // Register the custom console formatter.
