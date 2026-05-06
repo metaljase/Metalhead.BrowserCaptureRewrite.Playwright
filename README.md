@@ -31,11 +31,35 @@ pwsh bin/Debug/net8.0/playwright.ps1 install
 ```
 
 ## Configuration
-The Playwright implementation of `BrowserCaptureRewrite.Abstractions` must be added to your project's dependency injection container, which registers the necessary services for capturing and rewriting in-flight HTTP responses:
+The Playwright implementation of `BrowserCaptureRewrite.Abstractions` must be added to your project's dependency injection container by calling an overload of `AddPlaywrightCaptureRewrite(this IServiceCollection)`, which registers the necessary services for capturing and rewriting in-flight HTTP responses.
+
+Use the parameterless overload to register services with all default options:
 ```csharp
 builder.Services.AddPlaywrightCaptureRewrite();
 ```
-See the [Configuration section in the `BrowserCaptureRewrite.Abstractions` repository](https://github.com/metaljase/BrowserCaptureRewrite.Abstractions#configuration) for details on the options that can be added to `appsettings.json` or supplied through any .NET configuration provider (environment variables, user secrets, command‑line arguments).  These settings control navigation timing, capture timing, browser behaviour, resiliency policies, and connectivity probes.
+
+Alternatively, see the [Configuration section in the `BrowserCaptureRewrite.Abstractions` repository](https://github.com/metaljase/BrowserCaptureRewrite.Abstractions#configuration) for details on the options that can be added to `appsettings.json` or supplied through any .NET configuration provider (environment variables, user secrets, command‑line arguments).  These settings control navigation timing, capture timing, browser behaviour, resiliency policies, and connectivity probes.  If these options are provided, use the `IConfiguration` overload:
+```csharp
+builder.Services.AddPlaywrightCaptureRewrite(builder.Configuration);
+```
+
+If you prefer to supply hardcoded values instead of using a configuration source, use the `Action<PlaywrightCaptureRewriteBuilder>` overload.  You only need to set the properties for the options types you want to configure - any omitted options type retains its defaults:
+```csharp
+builder.Services.AddPlaywrightCaptureRewrite(b =>
+{
+    b.ConfigureBrowser = o =>
+    {
+        o.Browser = Metalhead.BrowserCaptureRewrite.Abstractions.Engine.BrowserEngine.Firefox;
+        o.Headless = false;
+    };
+
+    b.ConfigureResiliencePolicy = o =>
+    {
+        o.TransportRetryDelaysSeconds = [7, 8, 15, 30, 60, 300];
+        o.TimeoutRetryDelaysSeconds = [1, 3, 5];
+    };
+});
+```
 
 # Examples
 See the [Examples section in the `BrowserCaptureRewrite.Abstractions` repository](https://github.com/metaljase/BrowserCaptureRewrite.Abstractions#examples) for code demonstrating how to capture and rewrite in-flight HTTP responses.
